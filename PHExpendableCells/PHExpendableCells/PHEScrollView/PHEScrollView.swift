@@ -47,24 +47,6 @@ protocol PHEScrollViewDatasource {
      */
     func expandableScrollView(scrollView : PHEScrollView, cellForRowAtIndex index : NSInteger) -> UIView;
     
-    // MARK: Customisation
-    
-    /**
-    * func expandAll(scrollView)
-    * get if the scrollview must expand all cells or only them on the limits.
-    * By default, the scrollview expands only cells on limit.
-    * @Param : scrollView : PHEScrollView, the scrollView asking
-    * @Return : Bool, true or false.
-    */
-    optional func expandAll(scrollView : PHEScrollView) -> Bool;
-    
-    /**
-     * func hideVerticalScrollIndicator(scrollView)
-     * get if the indicator must be visible or not, by default it's visible.
-     * @Param : scrollView : PHEScrollView, the scrollView asking
-     * @Return : Bool, true or false is you want to hide/show
-     */
-    optional func hideVerticalScrollIndicator(scrollView : PHEScrollView) -> Bool;
     
     // MARK: Events
     
@@ -160,34 +142,52 @@ class PHEScrollView: UIView, UIScrollViewDelegate {
         }
     }
     
-    var _expandAll : Bool {
+    var _expandAll : Bool = false;
+    
+    var expandAll : Bool {
         
         get {
+            return _expandAll;
             
-            if (delegate != nil && delegate!.expandAll?(self) != nil) {
-            
-                return delegate!.expandAll!(self);
-            } else {
-                return false;
-            }
-            
-            
+        }
+        
+        set {
+            _expandAll = newValue;
         }
     }
     
     
-    var _hideScrollIndicator : Bool {
+    var _hideScrollIndicator : Bool = false;
+        
+    var hideScrollIndicator : Bool {
         
         get {
             
-            if (delegate != nil && delegate!.hideVerticalScrollIndicator?(self) != nil) {
-                
-                return delegate!.hideVerticalScrollIndicator!(self);
-            } else {
-                return false;
-            }
+            return _hideScrollIndicator;
+        }
+        
+        
+        set {
             
+            _hideScrollIndicator = newValue;
+            _scrollView.showsHorizontalScrollIndicator = !_hideScrollIndicator;
+            _scrollView.showsVerticalScrollIndicator = !_hideScrollIndicator;
+        }
+    }
+    
+    var _horizantalScroll : Bool = false;
+    
+    var horizantalScroll : Bool {
+        
+        get {
             
+            return _horizantalScroll;
+        }
+        
+        
+        set {
+            
+            _horizantalScroll = newValue;
         }
     }
     
@@ -231,10 +231,6 @@ class PHEScrollView: UIView, UIScrollViewDelegate {
         var total : CGFloat = 0.0;
         
         
-        _scrollView.showsVerticalScrollIndicator = !_hideScrollIndicator;
-            
-        
-        
         _cells  = [];
         
         for (var i : NSInteger = 0; i < _numberOfRow; i++) {
@@ -247,7 +243,22 @@ class PHEScrollView: UIView, UIScrollViewDelegate {
                 cellHeight = _minHeight;
             }
             
-            aView.frame = CGRect(x: 0.0, y: total, width: frame.width, height: cellHeight);
+            var originX : CGFloat = 0.0;
+            var originY : CGFloat = total;
+            var width : CGFloat = frame.width;
+            var height : CGFloat = cellHeight;
+
+            
+            if (_horizantalScroll) {
+                
+                originX = total;
+                originY = 0.0;
+                width = cellHeight;
+                height = frame.height;
+
+            }
+            
+            aView.frame = CGRect(x: originX, y: originY, width: width, height: height);
             
             
             let tapGesture : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "didSelectRowAtIndex:");
@@ -260,16 +271,29 @@ class PHEScrollView: UIView, UIScrollViewDelegate {
             
         }
         
+        var space : CGFloat = frame.height;
+        
+        if (_horizantalScroll) {
+            space = frame.width
+        }
         
         if (_expandAll) {
-            total = total + frame.height - _maxHeigth;
+           
+            
+            total = total + space - _maxHeigth;
             _lastIndex = _cells.count;
         } else {
             
-            _lastIndex =  NSInteger((total - frame.height) / _minHeight) + 1;
+            _lastIndex =  NSInteger((total - space) / _minHeight) + 1;
         }
         
-        _scrollView.contentSize.height = total;
+        
+        if (_horizantalScroll) {
+            _scrollView.contentSize.width = total;
+        } else {
+            _scrollView.contentSize.height = total;
+        }
+        
         
         difference;
     }
@@ -281,7 +305,10 @@ class PHEScrollView: UIView, UIScrollViewDelegate {
     func scrollViewDidScroll(scrollView: UIScrollView) {
         
         
-        let offset : CGFloat = scrollView.contentOffset.y;
+        var offset : CGFloat = scrollView.contentOffset.y;
+        if (_horizantalScroll) {
+            offset = scrollView.contentOffset.x;
+        }
         
         let index : NSInteger = currentIndex(offset);
         
@@ -300,8 +327,16 @@ class PHEScrollView: UIView, UIScrollViewDelegate {
         
         
             if factor < 1.0 && factor > 0 {
-                prevCell.frame = CGRect(x: 0.0, y: startY, width: frame.width, height: _maxHeigth - difference*factor);
-                cell.frame = CGRect(x: 0.0, y: _maxHeigth + startY - difference*(factor), width: frame.width, height:  _minHeight + difference*factor);
+                
+              
+                if (!_horizantalScroll) {
+                      prevCell.frame = CGRect(x: 0.0, y: startY, width: frame.width, height: _maxHeigth - difference*factor);
+                     cell.frame = CGRect(x: 0.0, y: _maxHeigth + startY - difference*(factor), width: frame.width, height:  _minHeight + difference*factor);
+                } else {
+                    prevCell.frame = CGRect(x: startY, y: 0.0, width: _maxHeigth - difference*factor, height: frame.height);
+                    cell.frame = CGRect(x: _maxHeigth + startY - difference*(factor), y:0.0, width: _minHeight + difference*factor, height: frame.height);
+                    
+                }
             
             }
             

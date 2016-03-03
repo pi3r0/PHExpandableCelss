@@ -23,6 +23,8 @@ class ViewController: UIViewController , PHEScrollViewDatasource, PHEScrollViewD
         // Do any additional setup after loading the view, typically from a nib.
         _expendableSV.delegate = self;
         _expendableSV.datasource = self;
+        _expendableSV.hideScrollIndicator = true;
+        _expendableSV.horizantalScroll = true;
         _expendableSV.reloadData();
     }
     
@@ -39,22 +41,10 @@ class ViewController: UIViewController , PHEScrollViewDatasource, PHEScrollViewD
         return numberOfRow;
     }
     
-    // MARK: Customisation
-    
-    func expandAll(scrollView: PHEScrollView) -> Bool {
-        
-        return false;
-    }
-    
-    func hideVerticalScrollIndicator(scrollView: PHEScrollView) -> Bool {
-        return true;
-    }
-    
-    
     // MARK: Delegate
     
     func maxheightForCell(scrollView: PHEScrollView) -> CGFloat {
-        return 300;
+        return view.frame.width - 100;
     }
     
     func minheightForCell(scrollView: PHEScrollView) -> CGFloat {

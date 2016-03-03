@@ -32,10 +32,14 @@ class ViewController: UIViewController , PHEScrollViewDatasource, PHEScrollViewD
     }
     
     
+    // MARK: DataSource
+    
     func numberOfRow(scrollView: PHEScrollView) -> NSInteger {
         
         return numberOfRow;
     }
+    
+    // MARK: Customisation
     
     func expandAll(scrollView: PHEScrollView) -> Bool {
         
@@ -45,6 +49,9 @@ class ViewController: UIViewController , PHEScrollViewDatasource, PHEScrollViewD
     func hideVerticalScrollIndicator(scrollView: PHEScrollView) -> Bool {
         return true;
     }
+    
+    
+    // MARK: Delegate
     
     func maxheightForCell(scrollView: PHEScrollView) -> CGFloat {
         return 300;
@@ -65,6 +72,8 @@ class ViewController: UIViewController , PHEScrollViewDatasource, PHEScrollViewD
         
         
     }
+    
+    // MARK: Event
     
     func expandableScrollView(scrollView: PHEScrollView, didSelectRowAtIndex index: NSInteger) {
         

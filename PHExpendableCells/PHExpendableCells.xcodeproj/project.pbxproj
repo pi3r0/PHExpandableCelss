@@ -15,7 +15,7 @@
 		7498705A1C8851FF0060C913 /* PHExpendableCellsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749870591C8851FF0060C913 /* PHExpendableCellsTests.swift */; };
 		749870651C8851FF0060C913 /* PHExpendableCellsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749870641C8851FF0060C913 /* PHExpendableCellsUITests.swift */; };
 		749870751C8852A80060C913 /* PHECellTestV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749870731C8852A80060C913 /* PHECellTestV.swift */; };
-		7498707A1C88535E0060C913 /* PHEScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749870791C88535E0060C913 /* PHEScrollView.swift */; };
+		7498707D1C8864510060C913 /* PHEScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7498707C1C8864510060C913 /* PHEScrollView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,7 +50,7 @@
 		749870641C8851FF0060C913 /* PHExpendableCellsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PHExpendableCellsUITests.swift; sourceTree = "<group>"; };
 		749870661C8851FF0060C913 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		749870731C8852A80060C913 /* PHECellTestV.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PHECellTestV.swift; sourceTree = "<group>"; };
-		749870791C88535E0060C913 /* PHEScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PHEScrollView.swift; sourceTree = "<group>"; };
+		7498707C1C8864510060C913 /* PHEScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PHEScrollView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,7 +101,7 @@
 		749870431C8851FF0060C913 /* PHExpendableCells */ = {
 			isa = PBXGroup;
 			children = (
-				749870781C88535E0060C913 /* PHEScrollView */,
+				7498707B1C8864510060C913 /* PHEScrollView */,
 				749870771C8853110060C913 /* Views */,
 				749870441C8851FF0060C913 /* AppDelegate.swift */,
 				749870461C8851FF0060C913 /* ViewController.swift */,
@@ -139,13 +139,12 @@
 			name = Views;
 			sourceTree = "<group>";
 		};
-		749870781C88535E0060C913 /* PHEScrollView */ = {
+		7498707B1C8864510060C913 /* PHEScrollView */ = {
 			isa = PBXGroup;
 			children = (
-				749870791C88535E0060C913 /* PHEScrollView.swift */,
+				7498707C1C8864510060C913 /* PHEScrollView.swift */,
 			);
-			name = PHEScrollView;
-			path = ../../PHEScrollView;
+			path = PHEScrollView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -280,7 +279,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				749870751C8852A80060C913 /* PHECellTestV.swift in Sources */,
-				7498707A1C88535E0060C913 /* PHEScrollView.swift in Sources */,
+				7498707D1C8864510060C913 /* PHEScrollView.swift in Sources */,
 				749870471C8851FF0060C913 /* ViewController.swift in Sources */,
 				749870451C8851FF0060C913 /* AppDelegate.swift in Sources */,
 			);

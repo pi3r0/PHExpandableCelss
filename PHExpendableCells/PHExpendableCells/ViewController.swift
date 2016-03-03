@@ -23,7 +23,7 @@ class ViewController: UIViewController , PHEScrollViewDatasource, PHEScrollViewD
         // Do any additional setup after loading the view, typically from a nib.
         _expendableSV.delegate = self;
         _expendableSV.datasource = self;
-        _expendableSV.buildSV();
+        _expendableSV.reloadData();
     }
     
     override func didReceiveMemoryWarning() {
@@ -45,11 +45,6 @@ class ViewController: UIViewController , PHEScrollViewDatasource, PHEScrollViewD
     func hideVerticalScrollIndicator(scrollView: PHEScrollView) -> Bool {
         return true;
     }
-    
-    func enabledPaging(scrollView: PHEScrollView) -> Bool {
-        return true;
-    }
-    
     
     func maxheightForCell(scrollView: PHEScrollView) -> CGFloat {
         return 300;

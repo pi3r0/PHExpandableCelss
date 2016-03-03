@@ -22,8 +22,6 @@ protocol PHEScrollViewDatasource {
     
     optional func expandAll(scrollView : PHEScrollView) -> Bool;
     optional func hideVerticalScrollIndicator(scrollView : PHEScrollView) -> Bool;
-    optional func hideHorizontalBar(scrollView : PHEScrollView) -> Bool;
-    optional func enabledPaging(scrollView : PHEScrollView) -> Bool;
     optional func expandableScrollView(scrollView : PHEScrollView, didSelectRowAtIndex index : NSInteger);
 
 
@@ -190,7 +188,7 @@ class PHEScrollView: UIView, UIScrollViewDelegate {
     
     var _lastIndex : NSInteger = 0;
     
-    func buildSV() {
+    func reloadData() {
     
         var total : CGFloat = 0.0;
         

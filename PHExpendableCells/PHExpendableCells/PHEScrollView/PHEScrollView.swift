@@ -146,7 +146,7 @@ class PHEScrollView: UIView, UIScrollViewDelegate {
     
     
     
-    // MARK: Custimisation
+    // MARK: Customization
     
     /**
     * expandAll : Bool

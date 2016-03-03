@@ -23,7 +23,13 @@ class ViewController: UIViewController , PHEScrollViewDatasource, PHEScrollViewD
         // Do any additional setup after loading the view, typically from a nib.
         _expendableSV.delegate = self;
         _expendableSV.datasource = self;
-        _expendableSV.buildSV();
+        
+        //Customization
+        _expendableSV.hideScrollIndicator = true;
+        _expendableSV.horizantalScroll = true;
+        
+        //Start
+        _expendableSV.reloadData();
     }
     
     override func didReceiveMemoryWarning() {
@@ -32,27 +38,17 @@ class ViewController: UIViewController , PHEScrollViewDatasource, PHEScrollViewD
     }
     
     
+    // MARK: DataSource
+    
     func numberOfRow(scrollView: PHEScrollView) -> NSInteger {
         
         return numberOfRow;
     }
     
-    func expandAll(scrollView: PHEScrollView) -> Bool {
-        
-        return false;
-    }
-    
-    func hideVerticalScrollIndicator(scrollView: PHEScrollView) -> Bool {
-        return true;
-    }
-    
-    func enabledPaging(scrollView: PHEScrollView) -> Bool {
-        return true;
-    }
-    
+    // MARK: Delegate
     
     func maxheightForCell(scrollView: PHEScrollView) -> CGFloat {
-        return 300;
+        return view.frame.width - 100;
     }
     
     func minheightForCell(scrollView: PHEScrollView) -> CGFloat {
@@ -70,6 +66,8 @@ class ViewController: UIViewController , PHEScrollViewDatasource, PHEScrollViewD
         
         
     }
+    
+    // MARK: Event
     
     func expandableScrollView(scrollView: PHEScrollView, didSelectRowAtIndex index: NSInteger) {
         

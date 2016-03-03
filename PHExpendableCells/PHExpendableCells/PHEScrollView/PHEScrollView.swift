@@ -66,14 +66,9 @@ protocol PHEScrollViewDatasource {
 
 class PHEScrollView: UIView, UIScrollViewDelegate {
 
-    /*
-    // Only override drawRect: if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func drawRect(rect: CGRect) {
-        // Drawing code
-    }
-    */
+   
     var _scrollView : UIScrollView;
+
     
     var delegate   : PHEScrollViewDelegate?;
     
@@ -110,6 +105,7 @@ class PHEScrollView: UIView, UIScrollViewDelegate {
         }
     }
     
+
     var difference : CGFloat {
         
         get {
@@ -126,7 +122,7 @@ class PHEScrollView: UIView, UIScrollViewDelegate {
         }
     }
     
-    
+
     var _numberOfRow : NSInteger {
         
         get {
@@ -142,8 +138,22 @@ class PHEScrollView: UIView, UIScrollViewDelegate {
         }
     }
     
-    var _expandAll : Bool = false;
+    var _lastIndex : NSInteger = 0;
     
+    var _expandAll : Bool = false;
+    var _hideScrollIndicator : Bool = false;
+    var _horizantalScroll : Bool = false;
+    
+    
+    
+    // MARK: Custimisation
+    
+    /**
+    * expandAll : Bool
+    * Normally all cells can't be expand because the content offset is not too big, by default the library calculate the last
+    * cell which can be expanded. If you don't want that behaviour, set this variable to true and the library add necessary
+    * offset to expend all cells.
+    **/
     var expandAll : Bool {
         
         get {
@@ -157,8 +167,12 @@ class PHEScrollView: UIView, UIScrollViewDelegate {
     }
     
     
-    var _hideScrollIndicator : Bool = false;
-        
+    
+    /**
+    * hideScrollIndicator : Bool
+    * By default the Vertical Scroll Indicator is visible, if you want to hide this, just set the
+    * var to true.
+    **/
     var hideScrollIndicator : Bool {
         
         get {
@@ -175,8 +189,11 @@ class PHEScrollView: UIView, UIScrollViewDelegate {
         }
     }
     
-    var _horizantalScroll : Bool = false;
     
+    /**
+     * horizantalScroll : Bool
+     * By default the scroll axe is vertical, you can change by set the var `hideScrollIndicator` to true.
+     **/
     var horizantalScroll : Bool {
         
         get {
@@ -191,6 +208,8 @@ class PHEScrollView: UIView, UIScrollViewDelegate {
         }
     }
     
+    
+    // MARK: Init
 
     required init?(coder aDecoder: NSCoder) {
         
@@ -224,7 +243,7 @@ class PHEScrollView: UIView, UIScrollViewDelegate {
     
     }
     
-    var _lastIndex : NSInteger = 0;
+   
     
     func reloadData() {
     
@@ -349,6 +368,8 @@ class PHEScrollView: UIView, UIScrollViewDelegate {
     }
     
     
+    // MARK: Event
+    
     func didSelectRowAtIndex(tapGesture : UITapGestureRecognizer) {
         
         let view = tapGesture.view;
@@ -370,6 +391,8 @@ class PHEScrollView: UIView, UIScrollViewDelegate {
             delegate!.expandableScrollView!(self, didSelectRowAtIndex: index);
         }
     }
+    
+    // MARK: Tools
 
     func currentIndex(offset : CGFloat) -> NSInteger {
         

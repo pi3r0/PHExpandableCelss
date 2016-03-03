@@ -62,7 +62,7 @@ The library add a tap gesture recognizer on every cells, if you want to catch th
 
 ## How it Works
 
-It's an `UIView` with inside a `UIScrollView`, it populates the `UIScrollView` with your custom view and add a `tapGestureRecognizer`. Based on the `UIScrollViewDelegate`, every time the user scroll, it's calculate the new frame for the current cell and the next one. 
+It's an `UIView` with inside a `UIScrollView`, it populates the `UIScrollView` with your custom view and add a `tapGestureRecognizer`. Based on the `UIScrollViewDelegate`, every time the user scrolls, it calculates the new frame for the current cell and the next one. 
 
 
 You can see an full example with the project PHCExpendableCells.

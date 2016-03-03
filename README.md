@@ -1,6 +1,8 @@
 PHExpandableCells
 ===================
 
+![PHExpendableCells screenshot](https://github.com/pi3r0/PHExpendableCells/blob/master/images/example.PNG?raw=true "Screenshot")
+
 Library to display cells with min and max height like `UITableView`, it's made with an `UIView` and `UIScrollView`. It works with any kind of cell inside. Many parameters to customize the behaviour like max heigth, min height, if you want to expand all the cells. You do add this view programmatically or directly on your storyboard, using UIView and changind the class. 
 
 `PHEScrollView` works vertically like a natural `UITableView`. 

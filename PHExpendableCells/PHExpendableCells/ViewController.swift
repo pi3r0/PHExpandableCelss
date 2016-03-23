@@ -18,16 +18,28 @@ class ViewController: UIViewController , PHEScrollViewDatasource, PHEScrollViewD
     var numberOfRow : NSInteger = 10;
     
     
+    let params : [String : AnyObject] = [
+                                         "expandAll" : true,
+                                         "horizontalScroll" : true,
+                                         "pagingEnabled" : true
+                                        ];
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         _expendableSV.delegate = self;
         _expendableSV.datasource = self;
+//     
+        //Customization - way 1
+        
 //        _expendableSV.pagingEnabled = false;
-        _expendableSV.expandAll = false;
-        //Customization
-        _expendableSV.hideScrollIndicator = false;
-        _expendableSV.horizantalScroll = true;
+//        _expendableSV.expandAll = false;
+//        _expendableSV.hideScrollIndicator = false;
+//        _expendableSV.horizontalScroll = true;
+        
+        //Customization - way 2
+        _expendableSV.setParams(params);
+        
         
         //Start
         _expendableSV.reloadData();

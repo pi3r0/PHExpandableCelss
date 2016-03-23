@@ -140,10 +140,9 @@ class PHEScrollView: UIView, UIScrollViewDelegate {
     }
     
     var _lastIndex : NSInteger = 0;
-    
     var _expandAll : Bool = false;
     var _hideScrollIndicator : Bool = false;
-    var _horizantalScroll : Bool = false;
+    var _horizontalScroll : Bool = false;
     var _pagingEnabled : Bool = true;
     
     
@@ -194,20 +193,20 @@ class PHEScrollView: UIView, UIScrollViewDelegate {
     
     
     /**
-     * horizantalScroll : Bool
+     * horizontalScroll : Bool
      * By default the scroll axe is vertical, you can change by set the var `hideScrollIndicator` to true.
      **/
-    var horizantalScroll : Bool {
+    var horizontalScroll : Bool {
         
         get {
             
-            return _horizantalScroll;
+            return _horizontalScroll;
         }
         
         
         set {
             
-            _horizantalScroll = newValue;
+            _horizontalScroll = newValue;
         }
     }
     
@@ -233,6 +232,7 @@ class PHEScrollView: UIView, UIScrollViewDelegate {
     }
     
     
+
     // MARK: Init
 
     required init?(coder aDecoder: NSCoder) {
@@ -267,6 +267,33 @@ class PHEScrollView: UIView, UIScrollViewDelegate {
     
     }
     
+    func setParams(params :  [String : AnyObject]) {
+        
+        if let val = params["expandAll"] as? Bool {
+            
+            expandAll = val;
+        }
+        
+        
+        if let val = params["hideScrollIndicator"] as? Bool {
+            
+            hideScrollIndicator = val;
+        }
+       
+       
+        if let val = params["horizontalScroll"] as? Bool {
+            
+            horizontalScroll = val;
+        }
+    
+        
+        if let val = params["pagingEnabled"] as? Bool {
+            
+            pagingEnabled = val;
+        }
+        
+    }
+    
    
     
     func reloadData() {
@@ -292,7 +319,7 @@ class PHEScrollView: UIView, UIScrollViewDelegate {
             var height : CGFloat = cellHeight;
 
             
-            if (_horizantalScroll) {
+            if (_horizontalScroll) {
                 
                 originX = total;
                 originY = 0.0;
@@ -316,7 +343,7 @@ class PHEScrollView: UIView, UIScrollViewDelegate {
         
         var space : CGFloat = frame.height;
         
-        if (_horizantalScroll) {
+        if (_horizontalScroll) {
             space = frame.width
         }
         
@@ -331,7 +358,7 @@ class PHEScrollView: UIView, UIScrollViewDelegate {
         }
         
         
-        if (_horizantalScroll) {
+        if (_horizontalScroll) {
             _scrollView.contentSize.width = total;
         } else {
             _scrollView.contentSize.height = total;
@@ -348,7 +375,7 @@ class PHEScrollView: UIView, UIScrollViewDelegate {
     func scrollViewDidScroll(scrollView: UIScrollView) {
         
         
-        let offset : CGFloat = _horizantalScroll ? scrollView.contentOffset.x : scrollView.contentOffset.y;
+        let offset : CGFloat = _horizontalScroll ? scrollView.contentOffset.x : scrollView.contentOffset.y;
        
         
         
@@ -367,7 +394,7 @@ class PHEScrollView: UIView, UIScrollViewDelegate {
         
         if !decelerate && _pagingEnabled {
             
-            let offset : CGFloat = _horizantalScroll ? scrollView.contentOffset.x : scrollView.contentOffset.y;
+            let offset : CGFloat = _horizontalScroll ? scrollView.contentOffset.x : scrollView.contentOffset.y;
             
             
             let index : NSInteger = currentIndex(offset);
@@ -382,7 +409,7 @@ class PHEScrollView: UIView, UIScrollViewDelegate {
             //
             //            }
             
-            let pointToReach : CGPoint = _horizantalScroll ? CGPoint(x: offsetToReach, y: 0.0) : CGPoint(x: 0.0, y: offsetToReach);
+            let pointToReach : CGPoint = _horizontalScroll ? CGPoint(x: offsetToReach, y: 0.0) : CGPoint(x: 0.0, y: offsetToReach);
             //
             //
             //        
@@ -395,7 +422,7 @@ class PHEScrollView: UIView, UIScrollViewDelegate {
         
         if _pagingEnabled {
             
-            let offset : CGFloat = _horizantalScroll ? targetContentOffset.memory.x : targetContentOffset.memory.y;
+            let offset : CGFloat = _horizontalScroll ? targetContentOffset.memory.x : targetContentOffset.memory.y;
             
             
             let index : NSInteger = currentIndex(offset);
@@ -407,7 +434,7 @@ class PHEScrollView: UIView, UIScrollViewDelegate {
             let offsetToReach : CGFloat = realOffset > _minHeight/2 ? CGFloat(index + 1)*_minHeight : CGFloat(index)*_minHeight;
             
             
-            if (_horizantalScroll) {
+            if (_horizontalScroll) {
                 targetContentOffset.memory.x = offsetToReach;
             } else {
                 targetContentOffset.memory.y = offsetToReach;
@@ -449,7 +476,7 @@ class PHEScrollView: UIView, UIScrollViewDelegate {
                 
             }
 
-            if (!_horizantalScroll) {
+            if (!_horizontalScroll) {
                   aCell.frame = CGRect(x: 0.0, y: originY, width: frame.width, height: height);
             } else {
                   aCell.frame = CGRect(x: originY, y: 0.0, width: height, height: frame.height);
@@ -472,7 +499,7 @@ class PHEScrollView: UIView, UIScrollViewDelegate {
     
         let startY : CGFloat = index > _lastIndex - 1 ? CGFloat(_lastIndex - 1)*_minHeight : CGFloat(index)*_minHeight;
        
-        let pointToReach : CGPoint = _horizantalScroll ? CGPoint(x: startY, y: 0.0) : CGPoint(x: 0.0, y: startY);
+        let pointToReach : CGPoint = _horizontalScroll ? CGPoint(x: startY, y: 0.0) : CGPoint(x: 0.0, y: startY);
         
         _scrollView.setContentOffset(pointToReach, animated: true);
         

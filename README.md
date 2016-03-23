@@ -45,6 +45,13 @@ The `PHEScrollView` have a default values if you want to set different case use 
  	myExpendableTV.horizantalScroll = true;
 ```
 
+### pagingEnabled
+
+- By default the paging is enabled, if you don't want this behavious set the var `pagingEnabled`to false. 
+
+```swift
+ 	myExpendableTV.horizantalScroll = false;
+
 ## Event and Interaction 
 
 The library add a tap gesture recognizer on every cells, if you want to catch the user interation, you have to to add `PHEScrollViewDelegate` in your view controller and this following method 

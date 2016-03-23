@@ -144,6 +144,7 @@ class PHEScrollView: UIView, UIScrollViewDelegate {
     var _expandAll : Bool = false;
     var _hideScrollIndicator : Bool = false;
     var _horizantalScroll : Bool = false;
+    var _pagingEnabled : Bool = true;
     
     
     
@@ -191,6 +192,7 @@ class PHEScrollView: UIView, UIScrollViewDelegate {
     }
     
     
+    
     /**
      * horizantalScroll : Bool
      * By default the scroll axe is vertical, you can change by set the var `hideScrollIndicator` to true.
@@ -209,6 +211,27 @@ class PHEScrollView: UIView, UIScrollViewDelegate {
         }
     }
     
+    /**
+     * pagingEnabled : Bool
+     * By default the behaviour is paginated, if you want to turn off this behaviour, set false to pagingEnabled.
+     **/
+    var pagingEnabled : Bool {
+        
+        get {
+            
+            return _pagingEnabled;
+        }
+        
+        
+        set {
+        
+            _pagingEnabled = newValue;
+            
+            _scrollView.decelerationRate = _pagingEnabled ? UIScrollViewDecelerationRateFast : UIScrollViewDecelerationRateNormal;
+            
+        }
+    }
+    
     
     // MARK: Init
 
@@ -216,7 +239,7 @@ class PHEScrollView: UIView, UIScrollViewDelegate {
         
         _scrollView = UIScrollView(coder: aDecoder)!;
         _scrollView.backgroundColor = UIColor.clearColor();
-    
+        _scrollView.decelerationRate = _pagingEnabled ? UIScrollViewDecelerationRateFast : UIScrollViewDecelerationRateNormal;
         
         super.init(coder: aDecoder);
         
@@ -325,12 +348,73 @@ class PHEScrollView: UIView, UIScrollViewDelegate {
     func scrollViewDidScroll(scrollView: UIScrollView) {
         
         
-        var offset : CGFloat = scrollView.contentOffset.y;
-        if (_horizantalScroll) {
-            offset = scrollView.contentOffset.x;
-        }
+        let offset : CGFloat = _horizantalScroll ? scrollView.contentOffset.x : scrollView.contentOffset.y;
+       
         
-        redrawSubviews(offset);       
+        
+        if (offset > -_minHeight) {
+            redrawSubviews(offset);
+        }
+     
+        
+
+    }
+    
+
+
+    func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        
+        
+        if !decelerate && _pagingEnabled {
+            
+            let offset : CGFloat = _horizantalScroll ? scrollView.contentOffset.x : scrollView.contentOffset.y;
+            
+            
+            let index : NSInteger = currentIndex(offset);
+            
+            let realOffset : CGFloat = offset - CGFloat(index)*_minHeight;
+            
+            
+            
+            let offsetToReach : CGFloat = realOffset > _minHeight/2 ? CGFloat(index + 1)*_minHeight : CGFloat(index)*_minHeight;
+            
+            //
+            //
+            //            }
+            
+            let pointToReach : CGPoint = _horizantalScroll ? CGPoint(x: offsetToReach, y: 0.0) : CGPoint(x: 0.0, y: offsetToReach);
+            //
+            //
+            //        
+            _scrollView.setContentOffset(pointToReach, animated: true);
+
+        }
+    
+    }
+    func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        
+        if _pagingEnabled {
+            
+            let offset : CGFloat = _horizantalScroll ? targetContentOffset.memory.x : targetContentOffset.memory.y;
+            
+            
+            let index : NSInteger = currentIndex(offset);
+            
+            let realOffset : CGFloat = offset - CGFloat(index)*_minHeight;
+            
+            
+            
+            let offsetToReach : CGFloat = realOffset > _minHeight/2 ? CGFloat(index + 1)*_minHeight : CGFloat(index)*_minHeight;
+            
+            
+            if (_horizantalScroll) {
+                targetContentOffset.memory.x = offsetToReach;
+            } else {
+                targetContentOffset.memory.y = offsetToReach;
+            }
+        }
+       
+        
         
     }
     
@@ -386,17 +470,13 @@ class PHEScrollView: UIView, UIScrollViewDelegate {
         
         let index = view!.tag;
     
-        var startY : CGFloat =  CGFloat(index)*_minHeight;
-        if (index > _lastIndex - 1) {
-            
-             startY =  CGFloat(_lastIndex - 1)*_minHeight;
-        }
+        let startY : CGFloat = index > _lastIndex - 1 ? CGFloat(_lastIndex - 1)*_minHeight : CGFloat(index)*_minHeight;
+       
+        let pointToReach : CGPoint = _horizantalScroll ? CGPoint(x: startY, y: 0.0) : CGPoint(x: 0.0, y: startY);
         
-        if (!_horizantalScroll) {
-            _scrollView.setContentOffset(CGPoint(x: 0.0, y: startY), animated: true);
-        } else {
-            _scrollView.setContentOffset(CGPoint(x: startY, y: 0.0), animated: true);
-        }
+        _scrollView.setContentOffset(pointToReach, animated: true);
+        
+        
         
         if (delegate != nil && delegate!.expandableScrollView?(self, didSelectRowAtIndex: index) != nil) {
             

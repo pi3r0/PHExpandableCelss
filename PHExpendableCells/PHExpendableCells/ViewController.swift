@@ -23,10 +23,11 @@ class ViewController: UIViewController , PHEScrollViewDatasource, PHEScrollViewD
         // Do any additional setup after loading the view, typically from a nib.
         _expendableSV.delegate = self;
         _expendableSV.datasource = self;
-        
+//        _expendableSV.pagingEnabled = false;
+        _expendableSV.expandAll = false;
         //Customization
-        _expendableSV.hideScrollIndicator = true;
-//        _expendableSV.horizantalScroll = true;
+        _expendableSV.hideScrollIndicator = false;
+        _expendableSV.horizantalScroll = true;
         
         //Start
         _expendableSV.reloadData();

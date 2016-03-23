@@ -26,7 +26,7 @@ class ViewController: UIViewController , PHEScrollViewDatasource, PHEScrollViewD
         
         //Customization
         _expendableSV.hideScrollIndicator = true;
-        _expendableSV.horizantalScroll = true;
+//        _expendableSV.horizantalScroll = true;
         
         //Start
         _expendableSV.reloadData();

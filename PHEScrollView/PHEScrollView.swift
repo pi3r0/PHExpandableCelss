@@ -78,6 +78,7 @@ class PHEScrollView: UIView, UIScrollViewDelegate {
     var _cells : Array<UIView> = [];
     var _currentIndex : NSInteger = 0;
     
+    
     var _minHeight :  CGFloat {
         
         get {
@@ -222,7 +223,7 @@ class PHEScrollView: UIView, UIScrollViewDelegate {
         _scrollView.frame = CGRect(x: 0.0, y: 0.0, width: frame.width, height: frame.height);
         _scrollView.delegate = self;
         addSubview(_scrollView);
-        
+        clipsToBounds = true;
     }
     
     
@@ -329,42 +330,87 @@ class PHEScrollView: UIView, UIScrollViewDelegate {
             offset = scrollView.contentOffset.x;
         }
         
-        let index : NSInteger = currentIndex(offset);
+        redrawSubviews(offset);
         
-        if (index >= 0 && index < _lastIndex - 1) {
+//        let index : NSInteger = currentIndex(offset);
         
-            let realOffset : CGFloat = offset - CGFloat(index)*_minHeight;
-            
-            let prevCell : UIView = _cells[index];
-            
-            
-            let cell : UIView = _cells[index + 1];
-            
-            let factor : CGFloat = realOffset/_minHeight;
-            
-            let startY : CGFloat =  CGFloat(index)*_minHeight;
-        
-        
-            if factor < 1.0 && factor > 0 {
-                
-              
-                if (!_horizantalScroll) {
-                      prevCell.frame = CGRect(x: 0.0, y: startY, width: frame.width, height: _maxHeigth - difference*factor);
-                     cell.frame = CGRect(x: 0.0, y: _maxHeigth + startY - difference*(factor), width: frame.width, height:  _minHeight + difference*factor);
-                } else {
-                    prevCell.frame = CGRect(x: startY, y: 0.0, width: _maxHeigth - difference*factor, height: frame.height);
-                    cell.frame = CGRect(x: _maxHeigth + startY - difference*(factor), y:0.0, width: _minHeight + difference*factor, height: frame.height);
-                    
-                }
-            
-            }
-            
-            
-        
-        }
+//        if (index >= 0 && index < _lastIndex - 1) {
+//        
+//            let realOffset : CGFloat = offset - CGFloat(index)*_minHeight;
+//            
+//            let prevCell : UIView = _cells[index];
+//            
+//            
+//            let cell : UIView = _cells[index + 1];
+//            
+//            let factor : CGFloat = realOffset/_minHeight;
+//            
+//            let startY : CGFloat =  CGFloat(index)*_minHeight;
+//        
+//        
+//            if factor < 1.0 && factor > 0 {
+//                
+//              
+//                if (!_horizantalScroll) {
+//                      prevCell.frame = CGRect(x: 0.0, y: startY, width: frame.width, height: _maxHeigth - difference*factor);
+//                     cell.frame = CGRect(x: 0.0, y: _maxHeigth + startY - difference*(factor), width: frame.width, height:  _minHeight + difference*factor);
+//                } else {
+//                    prevCell.frame = CGRect(x: startY, y: 0.0, width: _maxHeigth - difference*factor, height: frame.height);
+//                    cell.frame = CGRect(x: _maxHeigth + startY - difference*(factor), y:0.0, width: _minHeight + difference*factor, height: frame.height);
+//                    
+//                }
+//            
+//            }
+//            
+//            
+//        
+//        }
         
        
         
+    }
+    
+    func redrawSubviews(offset : CGFloat) {
+        
+        
+        let index : NSInteger = currentIndex(offset);
+        
+        let realOffset : CGFloat = offset - CGFloat(index)*_minHeight;
+        
+        
+        let factor : CGFloat = realOffset/_minHeight;
+        
+        var height = _minHeight;
+        var originY : CGFloat = 0.0;
+        var i : NSInteger = 0;
+        
+        for aCell in _cells {
+        
+            height = _minHeight;
+            
+            if (i == index) {
+                
+                //                (aCell as! PHECellTestV).fadeIn(false);
+                height =   _maxHeigth - difference*factor;
+                
+            } else if (i == index + 1 ) {
+                //                    (aCell as! PHECellTestV).fadeIn(true);
+                
+                height = _minHeight + difference*factor
+                
+                
+            }
+
+            if (!_horizantalScroll) {
+                  aCell.frame = CGRect(x: 0.0, y: originY, width: frame.width, height: height);
+            } else {
+                  aCell.frame = CGRect(x: originY, y: 0.0, width: height, height: frame.height);
+            }
+          
+            originY += height;
+             i++;
+            
+        }
     }
     
     
@@ -382,9 +428,11 @@ class PHEScrollView: UIView, UIScrollViewDelegate {
              startY =  CGFloat(_lastIndex - 1)*_minHeight;
         }
         
-         _scrollView.setContentOffset(CGPoint(x: 0.0, y: startY), animated: true);
-    
-       
+        if (!_horizantalScroll) {
+            _scrollView.setContentOffset(CGPoint(x: 0.0, y: startY), animated: true);
+        } else {
+            _scrollView.setContentOffset(CGPoint(x: startY, y: 0.0), animated: true);
+        }
         
         if (delegate != nil && delegate!.expandableScrollView?(self, didSelectRowAtIndex: index) != nil) {
             

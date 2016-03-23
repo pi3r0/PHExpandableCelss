@@ -51,6 +51,7 @@ The `PHEScrollView` have a default values if you want to set different case use 
 
 ```swift
  	myExpendableTV.horizantalScroll = false;
+```
 
 ## Event and Interaction 
 

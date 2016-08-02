@@ -22,6 +22,7 @@ Library to display cells with min and max height like `UITableView`, it's made w
 All customize methods are optionals, if you want customization you have to set the value one by one in your view controller.
 The `PHEScrollView` have a default values if you want to set different case use the following methods
 
+
 ### expandAll
 
 - Normally all cells can't be expand because the content offset is not too big, by default the library calculate the last cell which can be expanded. If you don't want that behaviour, set `expandAll` to true and the library add necessary offset to expend all cells.
@@ -37,12 +38,12 @@ The `PHEScrollView` have a default values if you want to set different case use 
 ```swift
  	myExpendableTV.hideScrollIndicator = true;
 ```
-### horizantalScroll
+### horizontalScroll
 
-- By default the scroll axe is vertical, you can change by set the var `hideScrollIndicator` to true. 
+- By default the scroll axe is vertical, you can change by set the var `horizontalScroll` to true. 
 
 ```swift
- 	myExpendableTV.horizantalScroll = true;
+ 	myExpendableTV.horizontalScroll = true;
 ```
 
 ### pagingEnabled
@@ -52,6 +53,20 @@ The `PHEScrollView` have a default values if you want to set different case use 
 ```swift
  	myExpendableTV.horizantalScroll = false;
 ```
+Two ways to customize, you can set all this value one by one or call the function `setParams` with a dictonnary like this : 
+
+```swift
+    let params : [String : AnyObject] = [
+                                         "expandAll" : true,
+                                         "horizontalScroll" : true,
+                                         "pagingEnabled" : true
+                                        ];
+
+     myExpendableTV.setParams(params);
+```
+
+
+
 
 ## Event and Interaction 
 

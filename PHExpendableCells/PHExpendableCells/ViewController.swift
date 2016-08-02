@@ -14,20 +14,31 @@ class ViewController: UIViewController , PHEScrollViewDatasource, PHEScrollViewD
     @IBOutlet var _expendableSV : PHEScrollView!;
     
     
-    var colors : Array<UIColor> = [UIColor.greenColor(), UIColor.redColor(), UIColor.blueColor(), UIColor.purpleColor(), UIColor.yellowColor(), UIColor.orangeColor(), UIColor.whiteColor(), UIColor.brownColor(),UIColor.greenColor(), UIColor.redColor(), UIColor.blueColor() ];
     var numberOfRow : NSInteger = 10;
     
+    
+    let params : [String : AnyObject] = [
+                                         "expandAll" : true,
+                                         "horizontalScroll" : false,
+                                         "pagingEnabled" : true
+                                        ];
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         _expendableSV.delegate = self;
         _expendableSV.datasource = self;
+     
+        //Customization - way 1
+        
 //        _expendableSV.pagingEnabled = false;
-        _expendableSV.expandAll = false;
-        //Customization
-        _expendableSV.hideScrollIndicator = false;
-        _expendableSV.horizantalScroll = true;
+//        _expendableSV.expandAll = false;
+//        _expendableSV.hideScrollIndicator = false;
+//        _expendableSV.horizontalScroll = true;
+        
+        //Customization - way 2
+        _expendableSV.setParams(params);
+        
         
         //Start
         _expendableSV.reloadData();
@@ -49,7 +60,7 @@ class ViewController: UIViewController , PHEScrollViewDatasource, PHEScrollViewD
     // MARK: Delegate
     
     func maxheightForCell(scrollView: PHEScrollView) -> CGFloat {
-        return view.frame.width - 100;
+        return view.frame.height*3/4;
     }
     
     func minheightForCell(scrollView: PHEScrollView) -> CGFloat {
@@ -60,8 +71,8 @@ class ViewController: UIViewController , PHEScrollViewDatasource, PHEScrollViewD
     func expandableScrollView(scrollView: PHEScrollView, cellForRowAtIndex index : NSInteger) -> UIView {
         
         
-        let aView : PHECellTestV = PHECellTestV(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 100));
-        aView.setBackgroundColor(colors[index], forIndex: index);
+        let aView : PHECellTestV = PHECellTestV(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 100), andHeight: view.frame.height*3/4);
+        aView.setImageIndex(index);
         
         return aView;
         

@@ -18,10 +18,17 @@ class PHECellTestV: UIView {
     }
     */
     
-    var _aLabel : UILabel!;
+    var _anImageV   : UIImageView!;
+    var _aLabel     : UILabel!;
     
+    var _height : CGFloat = 0;
     
-    override init(frame: CGRect) {
+    init(frame: CGRect, andHeight height : CGFloat ) {
+        
+        _height = height;
+        let originY = (frame.height - _height)/2;
+        _anImageV = UIImageView(frame: CGRect(x: 0.0, y: originY, width: frame.height, height: _height));
+        _anImageV.contentMode = .ScaleAspectFill;
         
         _aLabel = UILabel(frame: CGRect(x: 0, y: (frame.height - 20)/2, width: frame.width, height: 20));
         _aLabel.textAlignment = .Center;
@@ -29,7 +36,9 @@ class PHECellTestV: UIView {
         
         super.init(frame: frame);
         
+        addSubview(_anImageV);
         addSubview(_aLabel);
+        clipsToBounds = true;
         autoresizesSubviews = true;
         
     }
@@ -37,6 +46,9 @@ class PHECellTestV: UIView {
     override func layoutSubviews() {
         
         super.layoutSubviews();
+        
+        let originY = (frame.height - (_height))/2;
+        _anImageV.frame = CGRect(x: 0.0, y: originY, width: frame.width, height: _height);
         
         _aLabel.frame = CGRect(x: 0, y: (frame.height - 20)/2, width: frame.width, height: 20);
         
@@ -46,10 +58,11 @@ class PHECellTestV: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setBackgroundColor(backgroundColor : UIColor, forIndex index : NSInteger) {
+    func setImageIndex(index : NSInteger) {
         
-        self.backgroundColor = backgroundColor;
+        let imageIndex : NSInteger = index%8;
         
+        _anImageV.image = UIImage(named: String(imageIndex));
         _aLabel.text = "Cell at index \(index)";
     }
     
